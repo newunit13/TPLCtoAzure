@@ -9,3 +9,4 @@ requests
 pyodbc
 pandas
 pytz
+sqlalchemy
