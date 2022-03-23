@@ -1,7 +1,14 @@
 import pyodbc
 import logging
 from typing import List
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 from utils.config import AZURE_DB_CONNECTION_STRING
+
+
+
+connection_url = URL.create("mssql+pyodbc", query={"odbc_connect": AZURE_DB_CONNECTION_STRING})
+engine = create_engine(connection_url)
 
 
 def query(query: str) -> List[tuple]:
