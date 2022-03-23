@@ -617,28 +617,4 @@ access_token = get_access_token(TPL_ID, TPL_SECRET, TPL_GUID, TPL_USERID)
 # testing code below
 if __name__ == '__main__':
 
-    #a = Billboard()
-
-    #orders = GetOrders(detail="All",rql="readOnly.isClosed==True;readOnly.customerIdentifier.id!=1038;readOnly.creationDate=gt=2020-10-01;referenceNum!=*CANCELED*")
-    #reports = GetReports()
-    #receipts = GetReceipts(rql="poNum==1234")
-
-    #items = GetItems(20)
-    #itemIDs = ','.join([str(i["itemId"]) for i in items])
-
-    #itemIDs = '6703'
-
-    #report = RunCustomReport("Item_Activity_Report", "ElucidateFeed", parameters=f"StartDate:12/17/2020~EndDate:12/17/2020~CustomerID:20~FacilityID:2~ItemIDs:{itemIDs}~utcOffset:0")
-    #report = RunCustomReport("Item_Activity_Report", "ElucidateFeed", parameters=f"StartDate:01/20/2021~EndDate:01/21/2021~CustomerID:20~FacilityID:2~ItemIDs:{itemIDs}~utcOffset:-5")
-
-    #report = []
-    #for day in range(12,27):
-    #    report.append(RunCustomReport("Item_Activity_Report", "ElucidateFeed", parameters=f"StartDate:01/{day}/2021~EndDate:01/{day+1}/2021~CustomerID:20~FacilityID:2~ItemIDs:{itemIDs}~utcOffset:-5"))
-
-    #pos = GetPurchaseOrders()
-    #print(report)
-
-    a = get_inventory()
-    
-    
     print()
