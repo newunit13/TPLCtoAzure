@@ -50,7 +50,7 @@ def main(mytimer: func.TimerRequest) -> None:
     df.drop(['_links'], axis=1, inplace=True)
     df.drop(['savedElements'], axis=1, inplace=True)
     df.drop(['secondaryUnitOfMeasureIdentifier'], axis=1, inplace=True)
-    df.to_sql('Stock_Status', sql.engine, if_exists='replace', index=False, chunksize=100, method=None)
+    df.to_sql('Stock_Status', sql.engine, if_exists='append', index=False, chunksize=100, method=None)
     
 
     logging.info('Python timer trigger function ran at %s', utc_timestamp)
