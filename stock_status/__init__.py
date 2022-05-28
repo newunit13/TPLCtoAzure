@@ -27,21 +27,10 @@ def main(mytimer: func.TimerRequest) -> None:
         datum['inventoryUnitOfMeasureIdentifier'] = datum.get('inventoryUnitOfMeasureIdentifier').get('name')
         datum['timestamp'] = utc_timestamp
 
-        if datum.get('locationIdentifier'):
-            datum['locationIdentifier']  = datum.get('locationIdentifier').get('nameKey').get('name')
-        else:
-            datum['locationIdentifier'] = None
+        datum['locationIdentifier'] = datum.get('locationIdentifier').get('nameKey').get('name') if datum.get('locationIdentifier') else None
+        datum['palletIdentifier'] = datum.get('palletIdentifier').get('nameKey').get('name') if datum.get('palletIdentifier') else None
+        datum['onHoldUserIdentifier']  = datum.get('onHoldUserIdentifier').get('name') if datum.get('onHoldUserIdentifier') else None
 
-        if datum.get('palletIdentifier') :
-            datum['palletIdentifier'] = datum.get('palletIdentifier').get('nameKey').get('name')
-        else:
-            datum['palletIdentifier'] = None
-
-        if datum.get('onHoldUserIdentifier'):
-            datum['onHoldUserIdentifier']  = datum.get('onHoldUserIdentifier').get('name')
-        else:
-            datum['onHoldUserIdentifier'] = None
-        
         clean_data.append(datum)
 
 
