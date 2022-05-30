@@ -1,10 +1,10 @@
 import base64
 import requests
+import logging
 import json
 import re
 from urllib.parse import urlencode
 from .config import TPL_ID, TPL_SECRET, TPL_GUID, TPL_USERID
-
 
 
 #----------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ def get_access_token(tpl_id, tpl_secret, tpl_guid, tpl_user_id):
     })
 
     response = requests.post(url=url, headers=headers, data=data)
-    print(f"GetAccessToken() called.\tStatus Code: {response.status_code}")
+    logging.info(f"GetAccessToken() called.\tStatus Code: {response.status_code}")
 
     return response.json()["access_token"]
 
@@ -137,8 +137,13 @@ def get_inventory(pgsiz=100, pgnum=1, rql="", sort="", senameorvaluecontains="" 
         "Authorization"     : f"Bearer {access_token}"
     }
 
-    response = requests.get(url=url, headers=headers)
-    data = response.json()
+    try:
+        response = requests.get(url=url, headers=headers)
+        data = response.json()
+    except Exception as e:
+        logging.error(f"get_inventory() failed.\t{e}")
+        return None
+
 
     total_results = data["totalResults"]
     current_progress = 0
@@ -146,7 +151,7 @@ def get_inventory(pgsiz=100, pgnum=1, rql="", sort="", senameorvaluecontains="" 
 
     while True:
 
-        print(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
+        logging.debug(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
 
         response = requests.get(url=url, headers=headers)
         
@@ -224,7 +229,7 @@ def get_items(customer_id, pgsiz=100, pgnum=1, rql="", sort=""):
 
     while True:
 
-        print(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
+        logging.debug(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
 
         response = requests.get(url=url, headers=headers)
         
@@ -317,7 +322,7 @@ def get_customers(pgsiz=100, pgnum=1, rql="", sort="", facilityId=""):
 
     while True:
 
-        print(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
+        logging.debug(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
 
         response = requests.get(url=url, headers=headers)
         
@@ -372,7 +377,7 @@ def get_locations(pgsiz=100, pgnum=1, rql="", sort="", beginlocationid="", endlo
         total_results = data["totalResults"]
         locations += data['_embedded']['http://api.3plCentral.com/rels/properties/location']
 
-        print(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
+        logging.debug(f'Gathering page {pgnum}.\t{current_progress} out of {total_results} [{current_progress/total_results:2.2%}]')
 
         current_progress += pgsiz
         pgnum += 1
@@ -534,7 +539,7 @@ def get_base_reports():
     return reports
 
 def run_custom_report(base_report_name, custom_report_name, for_customer="", customerid="",  parameters=""):
-    print(f"Custom report {custom_report_name} ran with parameters: {parameters}")
+    logging.info(f"Custom report {custom_report_name} ran with parameters: {parameters}")
 
     if for_customer == "":
         for_customer = "TplOnly"
