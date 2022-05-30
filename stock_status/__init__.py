@@ -14,7 +14,7 @@ def main(mytimer: func.TimerRequest) -> None:
     if mytimer.past_due:
         logging.info('The timer is past due!')
 
-    logging.info('Getting Inveotry Data from TPLC')
+    logging.info('Getting Inventory Data from TPLC')
     raw_data = TPLC.get_inventory()
 
     logging.info('Cleaning Inventory Data')
@@ -42,4 +42,4 @@ def main(mytimer: func.TimerRequest) -> None:
     df.to_sql('Stock_Status', sql.engine, if_exists='append', index=False, chunksize=100, method=None)
     
 
-    logging.info('Python timer trigger function ran at %s', utc_timestamp)
+    logging.info('stock_status timer function ran at %s', utc_timestamp)
